@@ -1,0 +1,30 @@
+version: "3"
+services:
+  api:
+    container_name: vinopinions-api
+    image: ghcr.io/layla-oskar-schule/vinopinionsapi:latest
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    networks:
+      - vinopinionsapi-internal
+      - server
+  postgres:
+    container_name: vinopinionsapi-db
+    image: postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+    volumes:
+      - vinopinionsapi-db:/var/lib/postgresql/data
+    networks:
+      - vinopinionsapi-internal
+networks:
+  server:
+    external: true
+  vinopinionsapi-internal:
+volumes:
+  vinopinionsapi-db:
