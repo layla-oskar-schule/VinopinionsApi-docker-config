@@ -2,13 +2,13 @@ version: "3"
 services:
   api:
     container_name: vinopinions-api
-    image: ghcr.io/layla-oskar-schule/vinopinionsapi:latest
+    image: ghcr.io/layla-oskar-schule/vinopinionsapi-staging:latest 
     env_file:
       - .env
     depends_on:
       - postgres
     networks:
-      - vinopinionsapi-internal
+      - internal
       - server
   postgres:
     container_name: vinopinionsapi-db
@@ -21,10 +21,11 @@ services:
     volumes:
       - vinopinionsapi-db:/var/lib/postgresql/data
     networks:
-      - vinopinionsapi-internal
+      - internal
 networks:
   server:
     external: true
-  vinopinionsapi-internal:
+  internal:
+      internal: true
 volumes:
   vinopinionsapi-db:
